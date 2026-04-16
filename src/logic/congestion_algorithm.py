@@ -11,7 +11,7 @@ class CongestionAlgorithm:
         self.maps_service = maps_service
         self.obs = obs
 
-    async def analyze_congestion(self) -> str:
+    async def analyze_congestion(self, img_bytes: bytes | None = None) -> str:
         """
         The Core Congestion Algorithm.
         Orchestrates DB fetching, maps analysis, and AI summarization asynchronously.
@@ -30,8 +30,8 @@ class CongestionAlgorithm:
             # Enrich venue data with geospatial context
             venue_data['suggested_route'] = directions
 
-            # Generate Insights via Gemini 3 Flash
-            vibe_alert = await self.gemini_service.generate_vibe_alerts(venue_data)
+            # Generate Insights via Gemini Vision
+            vibe_alert = await self.gemini_service.generate_vibe_alerts(venue_data, img_bytes)
             
             self.obs.log_info(f"Generated Alert: {vibe_alert}")
             return vibe_alert

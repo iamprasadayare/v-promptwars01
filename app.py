@@ -70,13 +70,17 @@ def main():
             """, unsafe_allow_html=True
         )
 
+        st.write("##### Live Crowd Camera (Optional)")
+        uploaded_file = st.file_uploader("Upload live CCTV snapshot for AI Vision analysis", type=["jpg", "png", "jpeg"])
+
     with col2:
         st.write("##### ⚡ AI Vibe Alerts")
         if st.button("Generate Dynamic Redirection", help="Analyze real-time data to reroute crowds", type="primary"):
-            with st.spinner("Analyzing heatmaps and generating insights with Gemini 3.0 Flash..."):
+            with st.spinner("Analyzing heatmaps & visual footage with Gemini Vision..."):
                 try:
+                    img_bytes = uploaded_file.getvalue() if uploaded_file else None
                     # Run async task
-                    vibe_alert = asyncio.run(algo.analyze_congestion())
+                    vibe_alert = asyncio.run(algo.analyze_congestion(img_bytes))
                     st.success("Analysis Complete!")
                     st.info(f"🔊 **ALERT:** {vibe_alert}")
                     algo.obs.log_info("Successfully generated Vibe Alert on UI")
