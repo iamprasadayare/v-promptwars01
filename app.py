@@ -41,7 +41,6 @@ def init_services() -> CongestionAlgorithm:
     # Build Logic Component
     return CongestionAlgorithm(gemini_service=gemini, db_service=db, maps_service=maps, obs=obs)
 
-@st.cache_resource
 def get_logic():
     return init_services()
 
