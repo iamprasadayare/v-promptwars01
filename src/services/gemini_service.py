@@ -4,8 +4,8 @@ import asyncio
 class GeminiService:
     def __init__(self, api_key: str):
         genai.configure(api_key=api_key)
-        # gemini-2.0-flash is selected as it is explicitly available in your hackathon environment
-        self.model = genai.GenerativeModel("gemini-2.0-flash")
+        # gemini-flash-latest is used as it was confirmed in the diagnostic list and is the stable alias for Flash
+        self.model = genai.GenerativeModel("gemini-flash-latest")
 
     async def generate_vibe_alerts(self, venue_data: dict, img_bytes: bytes | None = None) -> str:
         """
