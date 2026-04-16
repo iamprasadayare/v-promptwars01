@@ -15,6 +15,7 @@ def mock_services():
 
     db = Mock(spec=DBService)
     db.get_venue_data = AsyncMock(return_value={"gates": {"Gate 4": {"congestion": "High"}}})
+    db.record_vibe_alert = AsyncMock()
 
     maps = Mock(spec=MapsService)
     maps.get_walking_directions = AsyncMock(return_value={"duration": "5 mins"})
@@ -40,5 +41,6 @@ async def test_analyze_congestion(mock_services):
     
     assert "Route through Gate 2" in result
     db.get_venue_data.assert_called_once()
+    db.record_vibe_alert.assert_called_once_with(result)
     maps.get_walking_directions.assert_called_once_with("Gate 4", "Gate 2")
     gemini.generate_vibe_alerts.assert_called_once()

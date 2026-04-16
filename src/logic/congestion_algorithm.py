@@ -33,5 +33,8 @@ class CongestionAlgorithm:
             # Generate Insights via Gemini Vision
             vibe_alert = await self.gemini_service.generate_vibe_alerts(venue_data, img_bytes)
             
-            self.obs.log_info(f"Generated Alert: {vibe_alert}")
+            # ACTIVE INTEGRATION: Persist insight to Firestore
+            await self.db_service.record_vibe_alert(vibe_alert)
+            
+            self.obs.log_info(f"Generated Alert & Persisted to Firestore: {vibe_alert[:50]}...")
             return vibe_alert
