@@ -71,6 +71,8 @@ def main():
 
         st.write("##### Live Crowd Camera (Optional)")
         uploaded_file = st.file_uploader("Upload live CCTV snapshot for AI Vision analysis", type=["jpg", "png", "jpeg"])
+        if uploaded_file:
+            st.image(uploaded_file, caption="Uploaded CCTV Feed Snapshot", use_column_width=True)
 
     with col2:
         st.write("##### ⚡ AI Vibe Alerts")

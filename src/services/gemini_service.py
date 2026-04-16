@@ -4,8 +4,8 @@ import asyncio
 class GeminiService:
     def __init__(self, api_key: str):
         genai.configure(api_key=api_key)
-        # Gemini 1.5 Flash is selected automatically as it supports natively fast multimodal (vision + text) processing
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        # gemini-2.0-flash is selected as it is explicitly available in your hackathon environment
+        self.model = genai.GenerativeModel("gemini-2.0-flash")
 
     async def generate_vibe_alerts(self, venue_data: dict, img_bytes: bytes | None = None) -> str:
         """
@@ -36,8 +36,4 @@ class GeminiService:
             response = await loop.run_in_executor(None, self.model.generate_content, contents)
             return response.text
         except Exception as e:
-            if "404" in str(e):
-                models = [m.name for m in genai.list_models()]
-                available = ", ".join(models)
-                raise Exception(f"Model Not Found. Available models in your key: {available}. Error: {str(e)}")
-            raise e
+            raise Exception(f"Cognitive Analysis Failed: {str(e)}")
